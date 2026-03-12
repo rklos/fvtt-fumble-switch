@@ -13,8 +13,12 @@
     "minimum": "13",
     "verified": "13"
   },
-  "esmodules": ["fumble-switch.js"],
-  "styles": ["fumble-switch.css"],
+  "esmodules": [
+    "fumble-switch.js"
+  ],
+  "styles": [
+    "fumble-switch.css"
+  ],
   "languages": [
     {
       "lang": "en",

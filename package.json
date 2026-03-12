@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "build": "tsc --noEmit && vite build"
+    "build": "tsc --noEmit && vite build",
+    "bump-version": "tsx tools/bump-version.ts"
   },
   "repository": {
     "type": "git",
