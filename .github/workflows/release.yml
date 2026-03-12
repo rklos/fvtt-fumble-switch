@@ -63,13 +63,6 @@ jobs:
           path: './dist/module.json'
           prop_path: 'compatibility.verified'
 
-      - name: Get maximum
-        id: maximum
-        uses: notiz-dev/github-action-json-property@release
-        with:
-          path: './dist/module.json'
-          prop_path: 'compatibility.maximum'
-
       - name: Set Download Link
         uses: jossef/action-set-json-field@v2
         with:
@@ -110,5 +103,5 @@ jobs:
       #     url: 'https://api.foundryvtt.com/_api/packages/release_version'
       #     method: 'POST'
       #     customHeaders: '{"Content-Type": "application/json", "Authorization" : "${{ secrets.FOUNDRY_KEY }}"}'
-      #     data: '{"dry_run": false, "id": "${{steps.moduleID.outputs.prop}}", "release": {"version":  "${{steps.tag.outputs.tag}}", "manifest": "https://github.com/${{github.repository}}/releases/download/${{steps.tag.outputs.tag}}/module.json", "notes": "https://github.com/${{github.repository}}/releases/tag/${{steps.tag.outputs.tag}}", "compatibility" : {"minimum": "${{steps.minimum.outputs.prop}}", "verified": "${{steps.verified.outputs.prop}}", "maximum": "${{steps.maximum.outputs.prop}}"}}}'
+      #     data: '{"dry_run": false, "id": "${{steps.moduleID.outputs.prop}}", "release": {"version":  "${{steps.tag.outputs.tag}}", "manifest": "https://github.com/${{github.repository}}/releases/download/${{steps.tag.outputs.tag}}/module.json", "notes": "https://github.com/${{github.repository}}/releases/tag/${{steps.tag.outputs.tag}}", "compatibility" : {"minimum": "${{steps.minimum.outputs.prop}}", "verified": "${{steps.verified.outputs.prop}}"}}}'
       #     timeout: 20000
