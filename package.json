@@ -1,0 +1,27 @@
+{
+  "name": "fvtt-fumble-switch",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rklos/fvtt-fumble-switch.git"
+  },
+  "author": "Radoslaw Klos <radoslaw@klos.dev>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rklos/fvtt-fumble-switch/issues"
+  },
+  "homepage": "https://github.com/rklos/fvtt-fumble-switch#readme",
+  "devDependencies": {
+    "@rklos/eslint-configs": "github:rklos/eslint-configs#3.1.5",
+    "eslint": "10.0.3",
+    "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#main",
+    "sass": "1.98.0",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3",
+    "vite": "8.0.0"
+  }
+}
