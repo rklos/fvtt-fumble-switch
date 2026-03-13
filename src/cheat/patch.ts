@@ -8,6 +8,15 @@ function getDieType(faces: number): DieType | null {
   return validTypes.includes(key) ? key : null;
 }
 
+// Track pending cheated rolls for systems that don't attach Roll objects to chat messages
+let pendingCheatedRoll = false;
+
+export function consumePendingCheatedRoll(): boolean {
+  if (!pendingCheatedRoll) return false;
+  pendingCheatedRoll = false;
+  return true;
+}
+
 export function patchRollEvaluate(): void {
   // Patch Die.prototype.roll to modify results BEFORE system post-processing
   const dieProto = foundry.dice.terms.Die.prototype as FumbleSwitchDie;
@@ -65,6 +74,7 @@ export function patchRollEvaluate(): void {
     if (cheated) {
       (result.options as FumbleSwitchRollOptions).fumbleSwitchCheated = true;
       (result.options as FumbleSwitchRollOptions).fumbleSwitchDirection = config.state;
+      pendingCheatedRoll = true;
     }
 
     return result;

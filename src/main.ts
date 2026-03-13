@@ -1,7 +1,7 @@
 import '~/ui/widget.scss';
 import { MODULE_ID } from '~/constants';
 import { registerSettings } from '~/settings';
-import { patchRollEvaluate } from '~/cheat/patch';
+import { patchRollEvaluate, consumePendingCheatedRoll } from '~/cheat/patch';
 import { renderWidget } from '~/ui/widget';
 import { initDiceSoNice } from '~/integrations/dice-so-nice';
 
@@ -20,11 +20,13 @@ Hooks.on('createChatMessage', (message: ChatMessage) => {
   const explicitMode = game.settings.get(MODULE_ID, 'explicitMode');
   if (!explicitMode) return;
 
-  const { rolls } = message;
-  if (!rolls?.length) return;
+  // Check rolls attached to the message (systems using Roll.toMessage)
+  const hasRollFlag = message.rolls?.some((r) => (r.options as FumbleSwitchRollOptions)?.fumbleSwitchCheated);
 
-  const cheatedRoll = rolls.find((r) => (r.options as FumbleSwitchRollOptions)?.fumbleSwitchCheated);
-  if (!cheatedRoll) return;
+  // Check pending flag (systems using ChatMessage.create with custom HTML)
+  const hasPendingFlag = consumePendingCheatedRoll();
+
+  if (!hasRollFlag && !hasPendingFlag) return;
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   ChatMessage.create({
