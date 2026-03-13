@@ -17,14 +17,6 @@ System-agnostic. Works with any game system.
 - **Explicit mode** — optionally notify players that a roll was influenced
 - **Dice So Nice! integration** — cheated rolls show colored 3D dice (green for better, red for worse) when in explicit mode
 
-## Installation
-
-Paste the manifest URL into Foundry's module installer:
-
-```
-https://github.com/rklos/fvtt-fumble-switch/releases/latest/download/module.json
-```
-
 ## Configuration
 
 Open module settings via the cog icon on the widget or through Foundry's module settings. The **Dice Settings** submenu lets you configure per-die options.
