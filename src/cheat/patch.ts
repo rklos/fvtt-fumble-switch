@@ -11,7 +11,7 @@ function getDieType(faces: number): DieType | null {
 export function patchRollEvaluate(): void {
   // Patch Die.prototype.roll to modify results BEFORE system post-processing
   const dieProto = foundry.dice.terms.Die.prototype as FumbleSwitchDie;
-  const originalRoll = dieProto.roll.bind(dieProto);
+  const originalRoll = dieProto.roll;
 
   type DieEvalOptions = Partial<foundry.dice.terms.DiceTerm.EvaluationOptions>;
   type DieRollResult = foundry.dice.terms.DiceTerm.Result;
@@ -52,7 +52,7 @@ export function patchRollEvaluate(): void {
 
   // Lightweight Roll.evaluate patch for explicit mode flagging
   const rollProto = Roll.prototype;
-  const originalEvaluate = rollProto.evaluate.bind(rollProto);
+  const originalEvaluate = rollProto.evaluate;
   type EvaluatedRoll = Roll.Evaluated<Roll>;
 
   rollProto.evaluate = async function patchedEvaluate(this: Roll, options?: Roll.Options): Promise<EvaluatedRoll> {
