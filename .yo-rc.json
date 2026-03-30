@@ -1,0 +1,17 @@
+{
+  "generator-fvtt": {
+    "type": "module",
+    "id": "fumble-switch",
+    "title": "Fumble Switch (Cheated Rolls)",
+    "description": "GM tool for real-time dice roll manipulation with multiple cheat strategies.",
+    "author": "Radoslaw Klos",
+    "email": "radoslaw@klos.dev",
+    "license": "MIT",
+    "outputFilename": "fumble-switch",
+    "languageCodes": [
+      "en",
+      "pl"
+    ],
+    "optionalDeps": "dice-so-nice"
+  }
+}
