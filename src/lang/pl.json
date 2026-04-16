@@ -21,6 +21,8 @@
   "FUMBLE_SWITCH.settings.thresholdPercent.hint": "Dla strategii Próg: przerzuć, jeśli wynik jest w najgorszych/najlepszych N% zakresu kości.",
   "FUMBLE_SWITCH.settings.explicitMode.name": "Tryb jawny",
   "FUMBLE_SWITCH.settings.explicitMode.hint": "Gdy włączony, gracze są informowani, że rzut został zmodyfikowany.",
+  "FUMBLE_SWITCH.settings.debugMode.name": "Tryb debugowania",
+  "FUMBLE_SWITCH.settings.debugMode.hint": "Gdy włączony, szczegółowy rozkład każdego zmanipulowanego rzutu (oryginał, modyfikator, wynik) jest wysyłany szeptem do MG.",
   "FUMBLE_SWITCH.settings.diceSettingsMenu.name": "Ustawienia kości",
   "FUMBLE_SWITCH.settings.diceSettingsMenu.label": "Konfiguruj kości",
   "FUMBLE_SWITCH.settings.diceSettingsMenu.hint": "Skonfiguruj ustawienia oszustwa per kość: które kości są modyfikowane, nadpisania kierunku i wartości korekty.",
@@ -34,5 +36,11 @@
   "FUMBLE_SWITCH.settingsMenu.lower": "Niższy",
   "FUMBLE_SWITCH.settingsMenu.save": "Zapisz zmiany",
   "FUMBLE_SWITCH.explicit.message": "Ręka losu wpłynęła na ten rzut.",
-  "FUMBLE_SWITCH.explicit.speaker": "Fumble Switch"
+  "FUMBLE_SWITCH.explicit.speaker": "Fumble Switch",
+  "FUMBLE_SWITCH.debug.title": "Fumble Switch - Debug",
+  "FUMBLE_SWITCH.debug.modifier.full": "pełna kontrola → wymuszono {direction} ({value})",
+  "FUMBLE_SWITCH.debug.modifier.bias": "stronniczość → drugi rzut {second}, wybrano lepszy",
+  "FUMBLE_SWITCH.debug.modifier.nudge": "korekta {delta}",
+  "FUMBLE_SWITCH.debug.modifier.threshold": "próg {threshold} → przerzucono {reroll}",
+  "FUMBLE_SWITCH.debug.modifier.thresholdSkipped": "próg {threshold} → nie zadziałał"
 }

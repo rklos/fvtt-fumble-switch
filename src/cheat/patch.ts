@@ -1,6 +1,8 @@
 import type { DieType } from '~/constants';
 import { getCheatConfig, isDieAffected, getPositiveDirection, getNudgeValue } from './state';
-import { applyStrategy, resolveDirection, type DieResult, type StrategyContext } from './strategies';
+import {
+  applyStrategy, resolveDirection, type DieResult, type DieDebugInfo, type StrategyContext,
+} from './strategies';
 
 function getDieType(faces: number): DieType | null {
   const key = `d${faces}` as DieType;
@@ -10,11 +12,18 @@ function getDieType(faces: number): DieType | null {
 
 // Track pending cheated rolls for systems that don't attach Roll objects to chat messages
 let pendingCheatedRoll = false;
+let pendingDebugInfo: DieDebugInfo[] = [];
 
 export function consumePendingCheatedRoll(): boolean {
   if (!pendingCheatedRoll) return false;
   pendingCheatedRoll = false;
   return true;
+}
+
+export function consumePendingDebugInfo(): DieDebugInfo[] {
+  const info = pendingDebugInfo;
+  pendingDebugInfo = [];
+  return info;
 }
 
 export function patchRollEvaluate(): void {
@@ -48,13 +57,28 @@ export function patchRollEvaluate(): void {
       thresholdPercent: config.thresholdPercent,
     };
 
+    const originalResult = result.result;
     // Wrap single result in array for strategy functions (they mutate in place)
     const wrapper: DieResult[] = [ result as DieResult ];
-    applyStrategy(config.strategy, wrapper, context);
+    const debug = applyStrategy(config.strategy, wrapper, context);
 
     // Mark this die term as cheated for explicit mode detection
     this._fumbleSwitchCheated = true;
     this._fumbleSwitchDirection = config.state;
+
+    if (config.debugMode) {
+      const info: DieDebugInfo = {
+        dieType,
+        faces,
+        strategy: config.strategy,
+        direction,
+        originalResult,
+        finalResult: result.result,
+        ...debug,
+      };
+      if (!this._fumbleSwitchDebug) this._fumbleSwitchDebug = [];
+      this._fumbleSwitchDebug.push(info);
+    }
 
     return result;
   };
@@ -68,13 +92,23 @@ export function patchRollEvaluate(): void {
     const result = await originalEvaluate.call(this, options);
 
     const config = getCheatConfig();
-    if (!config.explicitMode) return result;
+    if (!config.explicitMode && !config.debugMode) return result;
 
     const cheated = result.terms.some((term) => (term as FumbleSwitchDie)._fumbleSwitchCheated);
-    if (cheated) {
+    if (!cheated) return result;
+
+    if (config.explicitMode) {
       (result.options as FumbleSwitchRollOptions).fumbleSwitchCheated = true;
       (result.options as FumbleSwitchRollOptions).fumbleSwitchDirection = config.state;
       pendingCheatedRoll = true;
+    }
+
+    if (config.debugMode) {
+      const debugInfo = result.terms.flatMap((term) => (term as FumbleSwitchDie)._fumbleSwitchDebug ?? []);
+      if (debugInfo.length > 0) {
+        (result.options as FumbleSwitchRollOptions).fumbleSwitchDebug = debugInfo;
+        pendingDebugInfo.push(...debugInfo);
+      }
     }
 
     return result;

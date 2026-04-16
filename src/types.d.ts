@@ -1,4 +1,5 @@
 import type { CheatState, CheatStrategy, DieType, PositiveDirection } from '~/constants';
+import type { DieDebugInfo } from '~/cheat/strategies';
 
 declare global {
   interface SettingConfig {
@@ -6,6 +7,7 @@ declare global {
     'fumble-switch.positiveDirection': PositiveDirection;
     'fumble-switch.thresholdPercent': number;
     'fumble-switch.explicitMode': boolean;
+    'fumble-switch.debugMode': boolean;
     'fumble-switch.positiveDirectionOverrides': Record<string, PositiveDirection>;
     'fumble-switch.nudgeValues': Record<DieType, number>;
     'fumble-switch.affectedDice': Record<DieType, boolean>;
@@ -17,6 +19,7 @@ declare global {
   interface FumbleSwitchDie extends foundry.dice.terms.Die {
     _fumbleSwitchCheated?: boolean;
     _fumbleSwitchDirection?: CheatState;
+    _fumbleSwitchDebug?: DieDebugInfo[];
   }
 
   interface DsnAppearance {
@@ -30,6 +33,7 @@ declare global {
   interface FumbleSwitchRollOptions extends Roll.Options {
     fumbleSwitchCheated?: boolean;
     fumbleSwitchDirection?: CheatState;
+    fumbleSwitchDebug?: DieDebugInfo[];
     appearance?: DsnAppearance;
   }
 }

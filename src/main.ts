@@ -1,9 +1,11 @@
 import '~/ui/widget.scss';
 import { MODULE_ID } from '~/constants';
 import { registerSettings } from '~/settings';
-import { patchRollEvaluate, consumePendingCheatedRoll } from '~/cheat/patch';
+import { patchRollEvaluate, consumePendingCheatedRoll, consumePendingDebugInfo } from '~/cheat/patch';
 import { renderWidget } from '~/ui/widget';
 import { initDiceSoNice } from '~/integrations/dice-so-nice';
+import { renderDebugMessage } from '~/cheat/debug-message';
+import type { DieDebugInfo } from '~/cheat/strategies';
 
 Hooks.once('init', () => {
   registerSettings();
@@ -17,20 +19,39 @@ Hooks.once('ready', () => {
 
 Hooks.on('createChatMessage', (message: ChatMessage) => {
   if (!game.user?.isGM) return;
+
   const explicitMode = game.settings.get(MODULE_ID, 'explicitMode');
-  if (!explicitMode) return;
+  const debugMode = game.settings.get(MODULE_ID, 'debugMode');
+  if (!explicitMode && !debugMode) return;
 
-  // Check rolls attached to the message (systems using Roll.toMessage)
   const hasRollFlag = message.rolls?.some((r) => (r.options as FumbleSwitchRollOptions)?.fumbleSwitchCheated);
-
-  // Check pending flag (systems using ChatMessage.create with custom HTML)
   const hasPendingFlag = consumePendingCheatedRoll();
 
-  if (!hasRollFlag && !hasPendingFlag) return;
+  const rollDebug = message.rolls?.flatMap(
+    (r) => (r.options as FumbleSwitchRollOptions)?.fumbleSwitchDebug ?? [],
+  ) ?? [];
+  const pendingDebug = consumePendingDebugInfo();
+  const debugInfo: DieDebugInfo[] = rollDebug.length > 0 ? rollDebug : pendingDebug;
 
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  ChatMessage.create({
-    content: `<em>${game.i18n.localize('FUMBLE_SWITCH.explicit.message')}</em>`,
-    speaker: { alias: game.i18n.localize('FUMBLE_SWITCH.explicit.speaker') },
-  });
+  const wasCheated = hasRollFlag || hasPendingFlag || debugInfo.length > 0;
+  if (!wasCheated) return;
+
+  const speaker = { alias: game.i18n.localize('FUMBLE_SWITCH.explicit.speaker') };
+
+  if (explicitMode) {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    ChatMessage.create({
+      content: `<em>${game.i18n.localize('FUMBLE_SWITCH.explicit.message')}</em>`,
+      speaker,
+    });
+  }
+
+  if (debugMode && debugInfo.length > 0) {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    ChatMessage.create({
+      content: renderDebugMessage(debugInfo),
+      speaker,
+      whisper: [ game.user.id ],
+    });
+  }
 });

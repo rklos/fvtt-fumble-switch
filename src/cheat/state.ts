@@ -15,6 +15,7 @@ export interface CheatConfig {
   strategy: CheatStrategy;
   thresholdPercent: number;
   explicitMode: boolean;
+  debugMode: boolean;
 }
 
 export function getCheatState(): CheatState {
@@ -29,6 +30,7 @@ export function getCheatConfig(): CheatConfig {
     strategy: s().get(MODULE_ID, 'cheatStrategy') as CheatStrategy,
     thresholdPercent: s().get(MODULE_ID, 'thresholdPercent'),
     explicitMode: s().get(MODULE_ID, 'explicitMode') as boolean,
+    debugMode: s().get(MODULE_ID, 'debugMode') as boolean,
   };
 }
 

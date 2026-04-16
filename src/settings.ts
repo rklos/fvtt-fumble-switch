@@ -55,6 +55,15 @@ export function registerSettings(): void {
     default: false,
   });
 
+  s().register(MODULE_ID, 'debugMode', {
+    name: 'FUMBLE_SWITCH.settings.debugMode.name',
+    hint: 'FUMBLE_SWITCH.settings.debugMode.hint',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
   s().registerMenu(MODULE_ID, 'diceSettingsMenu', {
     name: 'FUMBLE_SWITCH.settings.diceSettingsMenu.name',
     label: 'FUMBLE_SWITCH.settings.diceSettingsMenu.label',

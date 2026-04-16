@@ -21,6 +21,8 @@
   "FUMBLE_SWITCH.settings.thresholdPercent.hint": "For Threshold strategy: re-roll if result is in the worst/best N% of the die range.",
   "FUMBLE_SWITCH.settings.explicitMode.name": "Explicit Mode",
   "FUMBLE_SWITCH.settings.explicitMode.hint": "When enabled, players are notified that a roll was influenced.",
+  "FUMBLE_SWITCH.settings.debugMode.name": "Debug Mode",
+  "FUMBLE_SWITCH.settings.debugMode.hint": "When enabled, whispers a detailed breakdown (original, modifier, final) of each manipulated die to the GM.",
   "FUMBLE_SWITCH.settings.diceSettingsMenu.name": "Dice Settings",
   "FUMBLE_SWITCH.settings.diceSettingsMenu.label": "Configure Dice",
   "FUMBLE_SWITCH.settings.diceSettingsMenu.hint": "Configure per-die cheat settings: which dice are affected, direction overrides, and nudge values.",
@@ -34,5 +36,11 @@
   "FUMBLE_SWITCH.settingsMenu.lower": "Lower",
   "FUMBLE_SWITCH.settingsMenu.save": "Save Changes",
   "FUMBLE_SWITCH.explicit.message": "The hand of fate has influenced this roll.",
-  "FUMBLE_SWITCH.explicit.speaker": "Fumble Switch"
+  "FUMBLE_SWITCH.explicit.speaker": "Fumble Switch",
+  "FUMBLE_SWITCH.debug.title": "Fumble Switch Debug",
+  "FUMBLE_SWITCH.debug.modifier.full": "full → forced {direction} ({value})",
+  "FUMBLE_SWITCH.debug.modifier.bias": "bias → second roll {second}, kept the better",
+  "FUMBLE_SWITCH.debug.modifier.nudge": "nudge {delta}",
+  "FUMBLE_SWITCH.debug.modifier.threshold": "threshold {threshold} → rerolled {reroll}",
+  "FUMBLE_SWITCH.debug.modifier.thresholdSkipped": "threshold {threshold} → not triggered"
 }

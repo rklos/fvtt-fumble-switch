@@ -1,4 +1,4 @@
-import type { CheatState, CheatStrategy, PositiveDirection } from '~/constants';
+import type { CheatState, CheatStrategy, DieType, PositiveDirection } from '~/constants';
 import { applyFull } from './full';
 import { applyBias } from './bias';
 import { applyNudge } from './nudge';
@@ -18,6 +18,20 @@ export interface StrategyContext {
   thresholdPercent: number;
 }
 
+export interface DieDebugInfo {
+  dieType: DieType;
+  faces: number;
+  strategy: CheatStrategy;
+  direction: CheatDirection;
+  originalResult: number;
+  finalResult: number;
+  nudgeDelta?: number;
+  biasSecondRoll?: number;
+  thresholdValue?: number;
+  thresholdReroll?: number;
+  thresholdTriggered?: boolean;
+}
+
 export function resolveDirection(state: CheatState, positiveDirection: PositiveDirection): CheatDirection | null {
   if (state === 'off') return null;
   if (positiveDirection === 'lower') {
@@ -26,25 +40,30 @@ export function resolveDirection(state: CheatState, positiveDirection: PositiveD
   return state;
 }
 
+export interface StrategyDebug {
+  nudgeDelta?: number;
+  biasSecondRoll?: number;
+  thresholdValue?: number;
+  thresholdReroll?: number;
+  thresholdTriggered?: boolean;
+}
+
 export function applyStrategy(
   strategy: CheatStrategy,
   results: DieResult[],
   context: StrategyContext,
-): void {
+): StrategyDebug {
   switch (strategy) {
     case 'full':
       applyFull(results, context);
-      break;
+      return {};
     case 'bias':
-      applyBias(results, context);
-      break;
+      return applyBias(results, context);
     case 'nudge':
-      applyNudge(results, context);
-      break;
+      return applyNudge(results, context);
     case 'threshold':
-      applyThreshold(results, context);
-      break;
+      return applyThreshold(results, context);
     default:
-      break;
+      return {};
   }
 }
