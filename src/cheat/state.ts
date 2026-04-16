@@ -20,8 +20,15 @@ export interface CheatConfig {
 
 export function getCheatState(): CheatState {
   const isGm = game.user?.isGM ?? false;
-  const key = isGm ? 'cheatStateGm' : 'cheatStatePlayers';
-  return s().get(MODULE_ID, key) as CheatState;
+  if (isGm) return s().get(MODULE_ID, 'cheatStateGm') as CheatState;
+
+  const userId = game.user?.id;
+  if (userId) {
+    const overrides = s().get(MODULE_ID, 'cheatStatePlayerOverrides');
+    const override = overrides[userId];
+    if (override && override !== 'off') return override;
+  }
+  return s().get(MODULE_ID, 'cheatStatePlayers') as CheatState;
 }
 
 export function getCheatConfig(): CheatConfig {

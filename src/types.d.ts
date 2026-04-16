@@ -13,6 +13,7 @@ declare global {
     'fumble-switch.affectedDice': Record<DieType, boolean>;
     'fumble-switch.cheatStatePlayers': CheatState;
     'fumble-switch.cheatStateGm': CheatState;
+    'fumble-switch.cheatStatePlayerOverrides': Record<string, CheatState>;
     'fumble-switch.widgetPosition': { top: number; left: number };
   }
 

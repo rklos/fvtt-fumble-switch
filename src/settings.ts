@@ -110,6 +110,13 @@ export function registerSettings(): void {
     default: 'off',
   });
 
+  s().register(MODULE_ID, 'cheatStatePlayerOverrides', {
+    scope: 'world',
+    config: false,
+    type: Object,
+    default: {},
+  });
+
   s().register(MODULE_ID, 'widgetPosition', {
     scope: 'client',
     config: false,
