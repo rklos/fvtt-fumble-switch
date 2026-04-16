@@ -32,6 +32,7 @@
   "FUMBLE_SWITCH.settingsMenu.nudgeValue": "Wartość korekty",
   "FUMBLE_SWITCH.settingsMenu.higher": "Wyższy",
   "FUMBLE_SWITCH.settingsMenu.lower": "Niższy",
+  "FUMBLE_SWITCH.settingsMenu.save": "Zapisz zmiany",
   "FUMBLE_SWITCH.explicit.message": "Ręka losu wpłynęła na ten rzut.",
   "FUMBLE_SWITCH.explicit.speaker": "Fumble Switch"
 }

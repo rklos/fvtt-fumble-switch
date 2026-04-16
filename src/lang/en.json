@@ -32,6 +32,7 @@
   "FUMBLE_SWITCH.settingsMenu.nudgeValue": "Nudge Value",
   "FUMBLE_SWITCH.settingsMenu.higher": "Higher",
   "FUMBLE_SWITCH.settingsMenu.lower": "Lower",
+  "FUMBLE_SWITCH.settingsMenu.save": "Save Changes",
   "FUMBLE_SWITCH.explicit.message": "The hand of fate has influenced this roll.",
   "FUMBLE_SWITCH.explicit.speaker": "Fumble Switch"
 }

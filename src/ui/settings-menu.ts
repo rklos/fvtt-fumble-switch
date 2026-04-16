@@ -39,7 +39,8 @@ export class FumbleSwitchSettingsMenu extends foundry.appv1.api.FormApplication 
     const globalDirection = s().get(MODULE_ID, 'positiveDirection') as PositiveDirection;
 
     DIE_TYPES.forEach((die) => {
-      nudgeValues[die] = Number(formData[`nudge-${die}`]) || DEFAULT_NUDGE_VALUES[die];
+      const raw = Number(formData[`nudge-${die}`]);
+      nudgeValues[die] = Number.isFinite(raw) && raw >= 0 ? raw : DEFAULT_NUDGE_VALUES[die];
       affectedDice[die] = Boolean(formData[`affected-${die}`]);
       const dir = formData[`direction-${die}`] as PositiveDirection;
       if (dir && dir !== globalDirection) {
