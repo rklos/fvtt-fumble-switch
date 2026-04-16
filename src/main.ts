@@ -7,6 +7,13 @@ import { initDiceSoNice } from '~/integrations/dice-so-nice';
 import { renderDebugMessage } from '~/cheat/debug-message';
 import type { DieDebugInfo } from '~/cheat/strategies';
 
+function getActiveGmIds(): string[] {
+  return (game.users?.contents ?? [])
+    .filter((u) => u.isGM && u.active)
+    .map((u) => u.id)
+    .filter((id): id is string => typeof id === 'string');
+}
+
 Hooks.once('init', () => {
   registerSettings();
   patchRollEvaluate();
@@ -47,11 +54,13 @@ Hooks.on('createChatMessage', (message: ChatMessage) => {
   }
 
   if (debugMode && debugInfo.length > 0) {
+    const gmIds = getActiveGmIds();
+    if (gmIds.length === 0) return;
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     ChatMessage.create({
       content: renderDebugMessage(debugInfo),
       speaker,
-      whisper: [ game.user.id ],
+      whisper: gmIds,
     });
   }
 });
